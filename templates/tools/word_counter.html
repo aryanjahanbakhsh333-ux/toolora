@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}شمارش کلمات - Toolora{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="tool-page">
+        <div class="tool-header">
+            <h1>📝 شمارش کلمات</h1>
+            <p>شمارش دقیق تعداد کلمات، کاراکترها و اطلاعات دیگر متن خود</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="input-section">
+                <label for="textInput">متن خود را اینجا وارد کنید:</label>
+                <textarea id="textInput" placeholder="متن خود را اینجا بنویسید..."></textarea>
+                <button class="btn btn-primary" onclick="countWords()">شمارش</button>
+            </div>
+
+            <div class="output-section" id="resultSection" style="display: none;">
+                <h2>نتایج:</h2>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <span class="result-label">تعداد کلمات</span>
+                        <span class="result-value" id="wordCount">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">تعداد کاراکترها</span>
+                        <span class="result-value" id="charCount">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">کاراکترها (بدون فاصله)</span>
+                        <span class="result-value" id="charCountNoSpaces">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">تعداد خطوط</span>
+                        <span class="result-value" id="lineCount">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">تعداد پاراگراف‌ها</span>
+                        <span class="result-value" id="paragraphCount">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">میانگین طول کلمه</span>
+                        <span class="result-value" id="avgWordLength">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function countWords() {
+    const text = document.getElementById('textInput').value;
+    
+    if (!text.trim()) {
+        alert('لطفاً متن را وارد کنید');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/word-counter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: text })
+        });
+        
+        const data = await response.json();
+        
+        document.getElementById('wordCount').textContent = data.word_count;
+        document.getElementById('charCount').textContent = data.char_count;
+        document.getElementById('charCountNoSpaces').textContent = data.char_count_without_spaces;
+        document.getElementById('lineCount').textContent = data.line_count;
+        document.getElementById('paragraphCount').textContent = data.paragraph_count;
+        document.getElementById('avgWordLength').textContent = data.average_word_length;
+        
+        document.getElementById('resultSection').style.display = 'block';
+    } catch (error) {
+        console.error('Error:', error);
+        alert('خطا در پردازش');
+    }
+}
+
+// Enter key support
+document.getElementById('textInput')?.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.ctrlKey) {
+        countWords();
+    }
+});
+</script>
+{% endblock %}

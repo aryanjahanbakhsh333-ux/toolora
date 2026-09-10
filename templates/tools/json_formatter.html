@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}فرمت‌کننده JSON - Toolora{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="tool-page">
+        <div class="tool-header">
+            <h1>{ } فرمت‌کننده JSON</h1>
+            <p>فرمت‌بندی، اعتبارسنجی و فشرده‌سازی JSON</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="input-section">
+                <label for="jsonInput">JSON خود را اینجا وارد کنید:</label>
+                <textarea id="jsonInput" placeholder='{"key": "value"}' style="font-family: monospace;"></textarea>
+                
+                <div class="options-section">
+                    <h3>گزینه‌ها:</h3>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="action" value="format" checked>
+                            فرمت‌بندی (Format)
+                        </label>
+                        <label>
+                            <input type="radio" name="action" value="minify">
+                            فشرده‌سازی (Minify)
+                        </label>
+                        <label>
+                            <input type="radio" name="action" value="validate">
+                            اعتبارسنجی (Validate)
+                        </label>
+                    </div>
+                    
+                    <div id="formatOptions">
+                        <label>
+                            تعداد فاصله‌ها:
+                            <input type="number" id="indent" value="2" min="1" max="8">
+                        </label>
+                        <label>
+                            <input type="checkbox" id="sortKeys">
+                            مرتب‌سازی کلیدها
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processJson()">پردازش</button>
+            </div>
+
+            <div class="output-section" id="resultSection" style="display: none;">
+                <h2>نتیجه:</h2>
+                <div class="result-json-box">
+                    <div id="messageBox" style="display: none; padding: 10px; margin-bottom: 10px; border-radius: 5px;"></div>
+                    <textarea id="resultText" readonly style="font-family: monospace;"></textarea>
+                    <button class="btn btn-secondary" onclick="copyResult()">کپی کردن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function getSelectedAction() {
+    return document.querySelector('input[name="action"]:checked').value;
+}
+
+function updateFormatOptions() {
+    const formatOptions = document.getElementById('formatOptions');
+    formatOptions.style.display = getSelectedAction() === 'format' ? 'block' : 'none';
+}
+
+document.querySelectorAll('input[name="action"]').forEach(radio => {
+    radio.addEventListener('change', updateFormatOptions);
+});
+
+async function processJson() {
+    const json = document.getElementById('jsonInput').value;
+    const action = getSelectedAction();
+    
+    if (!json.trim()) {
+        alert('لطفاً JSON را وارد کنید');
+        return;
+    }
+    
+    const payload = {
+        json_string: json,
+        action: action,
+        indent: parseInt(document.getElementById('indent').value),
+        sort_keys: document.getElementById('sortKeys').checked
+    };
+    
+    try {
+        const response = await fetch('/api/json-formatter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await response.json();
+        const messageBox = document.getElementById('messageBox');
+        const resultText = document.getElementById('resultText');
+        
+        if (!data.valid) {
+            messageBox.style.display = 'block';
+            messageBox.style.backgroundColor = '#fee';
+            messageBox.style.borderLeft = '4px solid #f00';
+            messageBox.textContent = `❌ ${data.message}`;
+            resultText.value = data.error || '';
+        } else {
+            messageBox.style.display = 'block';
+            messageBox.style.backgroundColor = '#efe';
+            messageBox.style.borderLeft = '4px solid #0f0';
+            messageBox.textContent = `✅ ${data.message}`;
+            
+            if (action === 'validate') {
+                resultText.value = data.message;
+            } else if (action === 'minify') {
+                resultText.value = data.minified || '';
+            } else {
+                resultText.value = data.formatted || '';
+            }
+        }
+        
+        document.getElementById('resultSection').style.display = 'block';
+    } catch (error) {
+        console.error('Error:', error);
+        alert('خطا در پردازش');
+    }
+}
+
+function copyResult() {
+    const resultText = document.getElementById('resultText');
+    resultText.select();
+    document.execCommand('copy');
+    alert('نتیجه کپی شد!');
+}
+
+// Enter key support
+document.getElementById('jsonInput')?.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.ctrlKey) {
+        processJson();
+    }
+});
+</script>
+{% endblock %}

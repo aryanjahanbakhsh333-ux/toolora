@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}شمارش کاراکترها - Toolora{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="tool-page">
+        <div class="tool-header">
+            <h1>🔤 شمارش کاراکترها</h1>
+            <p>تحلیل دقیق کاراکترها، اعداد، حروف بزرگ و کوچک</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="input-section">
+                <label for="textInput">متن خود را اینجا وارد کنید:</label>
+                <textarea id="textInput" placeholder="متن خود را اینجا بنویسید..."></textarea>
+                <button class="btn btn-primary" onclick="countCharacters()">تحلیل</button>
+            </div>
+
+            <div class="output-section" id="resultSection" style="display: none;">
+                <h2>نتایج تحلیل:</h2>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <span class="result-label">کل کاراکترها</span>
+                        <span class="result-value" id="totalChars">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">کاراکترها (بدون فاصله)</span>
+                        <span class="result-value" id="charsNoSpaces">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">فاصله‌ها</span>
+                        <span class="result-value" id="spaces">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">اعداد</span>
+                        <span class="result-value" id="digits">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">حروف</span>
+                        <span class="result-value" id="letters">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">حروف بزرگ</span>
+                        <span class="result-value" id="uppercase">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">حروف کوچک</span>
+                        <span class="result-value" id="lowercase">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">کاراکترهای خاص</span>
+                        <span class="result-value" id="specialChars">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label">خطوط جدید</span>
+                        <span class="result-value" id="newlines">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function countCharacters() {
+    const text = document.getElementById('textInput').value;
+    
+    if (!text) {
+        alert('لطفاً متن را وارد کنید');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/character-counter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: text })
+        });
+        
+        const data = await response.json();
+        
+        document.getElementById('totalChars').textContent = data.total_chars;
+        document.getElementById('charsNoSpaces').textContent = data.chars_without_spaces;
+        document.getElementById('spaces').textContent = data.spaces;
+        document.getElementById('digits').textContent = data.digits;
+        document.getElementById('letters').textContent = data.letters;
+        document.getElementById('uppercase').textContent = data.uppercase_letters;
+        document.getElementById('lowercase').textContent = data.lowercase_letters;
+        document.getElementById('specialChars').textContent = data.special_chars;
+        document.getElementById('newlines').textContent = data.newlines;
+        
+        document.getElementById('resultSection').style.display = 'block';
+    } catch (error) {
+        console.error('Error:', error);
+        alert('خطا در پردازش');
+    }
+}
+
+// Enter key support
+document.getElementById('textInput')?.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.ctrlKey) {
+        countCharacters();
+    }
+});
+</script>
+{% endblock %}

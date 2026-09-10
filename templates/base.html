@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Toolora - ابزارهای آنلاین{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="/" class="logo">🛠️ Toolora</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">خانه</a></li>
+                <li><a href="/tools" class="nav-link">ابزارها</a></li>
+                <li><a href="#about" class="nav-link">درباره</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Toolora. تمام حقوق محفوظ است.</p>
+            <p>ساخته شده با Python و FastAPI ❤️</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', path='js/main.js') }}"></script>
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

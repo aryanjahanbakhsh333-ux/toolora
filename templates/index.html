@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Toolora - صفحه اصلی{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>خوش آمدید به Toolora</h1>
+            <p>پلتفرم جامع ابزارهای آنلاین برای تمام نیاز‌های شما</p>
+            <a href="/tools" class="btn btn-primary btn-lg">شروع کنید</a>
+        </div>
+    </div>
+</section>
+
+<!-- Tools Grid -->
+<section class="tools-section">
+    <div class="container">
+        <h2>ابزارهای ما</h2>
+        <div class="tools-grid">
+            <!-- Word Counter -->
+            <div class="tool-card">
+                <div class="tool-icon">📝</div>
+                <h3>شمارش کلمات</h3>
+                <p>شمارش دقیق تعداد کلمات، کاراکترها و پاراگراف‌های متن</p>
+                <a href="/word-counter" class="btn btn-secondary">استفاده کنید</a>
+            </div>
+
+            <!-- Character Counter -->
+            <div class="tool-card">
+                <div class="tool-icon">🔤</div>
+                <h3>شمارش کاراکترها</h3>
+                <p>تحلیل دقیق کاراکترها، اعداد، حروف بزرگ و کوچک</p>
+                <a href="/character-counter" class="btn btn-secondary">استفاده کنید</a>
+            </div>
+
+            <!-- Text Cleaner -->
+            <div class="tool-card">
+                <div class="tool-icon">🧹</div>
+                <h3>پاک‌کنندگی متن</h3>
+                <p>تمیز کردن متن، حذف فاصله‌های اضافی و کاراکترهای خاص</p>
+                <a href="/text-cleaner" class="btn btn-secondary">استفاده کنید</a>
+            </div>
+
+            <!-- JSON Formatter -->
+            <div class="tool-card">
+                <div class="tool-icon">{ }</div>
+                <h3>فرمت‌کننده JSON</h3>
+                <p>فرمت‌بندی، اعتبارسنجی و فشرده‌سازی JSON</p>
+                <a href="/json-formatter" class="btn btn-secondary">استفاده کنید</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features" id="about">
+    <div class="container">
+        <h2>ویژگی‌های Toolora</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <span class="feature-icon">⚡</span>
+                <h3>سریع و کارآمد</h3>
+                <p>نتایج لحظه‌ای و بدون تاخیر</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🔒</span>
+                <h3>امن و خصوصی</h3>
+                <p>داده‌های شما محفوظ و ذخیره نمی‌شود</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">📱</span>
+                <h3>Responsive</h3>
+                <p>کار کردن بر روی همه دستگاه‌ها</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🎨</span>
+                <h3>طراحی زیبا</h3>
+                <p>رابط کاربری ساده و دوستانه</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
