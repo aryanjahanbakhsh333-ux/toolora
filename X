@@ -1,0 +1,44 @@
+Toolora
+│
+├── Authentication
+│   ├── Register
+│   ├── Login
+│   ├── Logout
+│   └── Password Security
+│
+├── Internationalization (i18n)
+│   ├── English
+│   ├── Hebrew
+│   ├── French
+│   ├── Persian
+│   ├── Spanish
+│   ├── German
+│   └── Arabic
+│
+├── User System
+│   ├── Profile
+│   ├── Dashboard
+│   └── Usage
+│
+├── Tools
+│   ├── Word Counter
+│   ├── Character Counter
+│   ├── Text Cleaner
+│   └── JSON Formatter
+│
+├── Database
+│   ├── Users
+│   ├── Tool Usage
+│   └── Saved Results
+│
+├── SEO
+│   ├── Sitemap
+│   ├── Robots.txt
+│   └── Meta Tags
+│
+└── Future
+    ├── AI Tools
+    ├── Pro Plan
+    ├── Stripe
+    ├── API
+    └── Admin Panel
