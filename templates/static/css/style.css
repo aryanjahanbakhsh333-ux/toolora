@@ -1,0 +1,536 @@
+/* =====================================================
+   TOOLORA
+   Main Website Design
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Arial, sans-serif;
+
+    background: #ffffff;
+    color: #111111;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 22px 7%;
+
+    border-bottom: 1px solid #eeeeee;
+
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #555555;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    color: #111111;
+}
+
+.nav-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.login-btn,
+.signup-btn {
+    border: none;
+    cursor: pointer;
+
+    padding: 11px 18px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.login-btn {
+    background: transparent;
+    color: #333333;
+}
+
+.signup-btn {
+    background: #111111;
+    color: white;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+    min-height: 650px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 80px 20px;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero-badge {
+    display: inline-block;
+
+    padding: 8px 14px;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 50px;
+
+    color: #555555;
+
+    font-size: 13px;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(48px, 7vw, 82px);
+
+    line-height: 1.05;
+
+    letter-spacing: -3px;
+
+    font-weight: 800;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 span {
+    color: #777777;
+}
+
+.hero p {
+    max-width: 620px;
+
+    margin: auto;
+
+    color: #666666;
+
+    font-size: 18px;
+}
+
+.hero-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 35px;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 15px 24px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.primary-btn {
+    border: none;
+
+    background: #111111;
+
+    color: white;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    border: 1px solid #dddddd;
+
+    background: white;
+
+    color: #111111;
+}
+
+.secondary-btn:hover {
+    background: #f7f7f7;
+}
+
+
+/* =====================================================
+   TOOLS SECTION
+===================================================== */
+
+.tools-section {
+    padding: 100px 7%;
+    background: #fafafa;
+}
+
+.section-heading {
+    text-align: center;
+
+    max-width: 650px;
+
+    margin: 0 auto 55px;
+}
+
+.section-label {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #777777;
+}
+
+.section-heading h2 {
+    font-size: 42px;
+
+    letter-spacing: -1px;
+
+    margin: 10px 0;
+}
+
+.section-heading p {
+    color: #777777;
+}
+
+
+/* =====================================================
+   TOOL CARDS
+===================================================== */
+
+.tools-grid {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.tool-card {
+    background: white;
+
+    border: 1px solid #e9e9e9;
+
+    border-radius: 18px;
+
+    padding: 28px;
+
+    min-height: 280px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    transition: 0.25s;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #cccccc;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.06);
+}
+
+.tool-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: #f2f2f2;
+
+    font-size: 21px;
+
+    margin-bottom: 22px;
+}
+
+.tool-card h3 {
+    font-size: 19px;
+
+    margin-bottom: 10px;
+}
+
+.tool-card p {
+    color: #777777;
+
+    font-size: 14px;
+
+    margin-bottom: 25px;
+}
+
+.tool-btn {
+    margin-top: auto;
+
+    border: none;
+
+    background: transparent;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    font-size: 14px;
+
+    color: #111111;
+}
+
+
+/* =====================================================
+   PRO SECTION
+===================================================== */
+
+.pro-section {
+    padding: 100px 7%;
+}
+
+.pro-box {
+    max-width: 1100px;
+
+    margin: auto;
+
+    padding: 70px 40px;
+
+    border-radius: 25px;
+
+    background: #111111;
+
+    color: white;
+
+    text-align: center;
+}
+
+.pro-label {
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    font-weight: 700;
+}
+
+.pro-box h2 {
+    font-size: 45px;
+
+    margin: 12px 0;
+}
+
+.pro-box p {
+    color: #bbbbbb;
+
+    max-width: 500px;
+
+    margin: auto;
+}
+
+.pro-btn {
+    margin-top: 30px;
+
+    padding: 14px 25px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: white;
+
+    color: #111111;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+    padding: 45px 7%;
+
+    border-top: 1px solid #eeeeee;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+}
+
+.footer-logo {
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+footer p {
+    color: #888888;
+
+    font-size: 13px;
+}
+
+.footer-links {
+    display: flex;
+
+    gap: 20px;
+}
+
+.footer-links a {
+    color: #777777;
+
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .tools-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 18px 5%;
+    }
+
+    .hero {
+        min-height: 580px;
+
+        padding: 60px 20px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+
+        letter-spacing: -2px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        width: 100%;
+    }
+
+    .tools-section {
+        padding: 70px 5%;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2 {
+        font-size: 34px;
+    }
+
+    .pro-section {
+        padding: 70px 5%;
+    }
+
+    .pro-box {
+        padding: 50px 25px;
+    }
+
+    .pro-box h2 {
+        font-size: 35px;
+    }
+
+    footer {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+}
