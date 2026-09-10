@@ -1,0 +1,520 @@
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel, Field
+from typing import Optional, Dict, Any
+import json
+import re
+
+router = APIRouter(
+    prefix="/api/tools",
+    tags=["Toolora Tools"]
+)
+
+
+# ============================================================
+# TOOL DEFINITIONS
+# ============================================================
+
+TOOLS = {
+    "rewriter": {
+        "name": "AI Text Rewriter",
+        "description": "Rewrite your text to make it clearer, smoother and more professional.",
+        "button": "Rewrite Text",
+        "placeholder": "Paste your text here...",
+        "max_characters": 10000,
+        "requires_pro": False,
+    },
+
+    "summarizer": {
+        "name": "AI Summarizer",
+        "description": "Summarize long texts into short, clear and useful summaries.",
+        "button": "Summarize",
+        "placeholder": "Paste the text you want to summarize...",
+        "max_characters": 20000,
+        "requires_pro": False,
+    },
+
+    "email-writer": {
+        "name": "AI Email Writer",
+        "description": "Create professional emails quickly using AI.",
+        "button": "Write Email",
+        "placeholder": "Describe the email you want to write...",
+        "max_characters": 10000,
+        "requires_pro": False,
+    },
+
+    "grammar": {
+        "name": "Grammar Improver",
+        "description": "Improve grammar, spelling, punctuation and readability.",
+        "button": "Improve Grammar",
+        "placeholder": "Paste your text here...",
+        "max_characters": 10000,
+        "requires_pro": False,
+    },
+
+    "word-counter": {
+        "name": "Word Counter",
+        "description": "Count words, characters and sentences in your text.",
+        "button": "Count Words",
+        "placeholder": "Paste your text here...",
+        "max_characters": 100000,
+        "requires_pro": False,
+    },
+
+    "character-counter": {
+        "name": "Character Counter",
+        "description": "Count characters with and without spaces.",
+        "button": "Count Characters",
+        "placeholder": "Paste your text here...",
+        "max_characters": 100000,
+        "requires_pro": False,
+    },
+
+    "text-cleaner": {
+        "name": "Text Cleaner",
+        "description": "Clean unnecessary spaces, line breaks and unwanted formatting.",
+        "button": "Clean Text",
+        "placeholder": "Paste text to clean...",
+        "max_characters": 100000,
+        "requires_pro": False,
+    },
+
+    "json-formatter": {
+        "name": "JSON Formatter",
+        "description": "Format, validate and clean JSON data.",
+        "button": "Format JSON",
+        "placeholder": 'Paste JSON here...',
+        "max_characters": 200000,
+        "requires_pro": False,
+    }
+}
+
+
+# ============================================================
+# REQUEST MODELS
+# ============================================================
+
+class ToolRequest(BaseModel):
+    text: str = Field(
+        ...,
+        min_length=1,
+        description="Input text for the selected tool"
+    )
+
+    language: Optional[str] = "en"
+
+    tone: Optional[str] = "professional"
+
+    length: Optional[str] = "medium"
+
+
+# ============================================================
+# RESPONSE MODEL
+# ============================================================
+
+class ToolResponse(BaseModel):
+    success: bool
+    tool: str
+    result: str
+    metadata: Dict[str, Any] = {}
+
+
+# ============================================================
+# GET ALL TOOLS
+# ============================================================
+
+@router.get("/")
+async def get_all_tools():
+
+    return {
+        "success": True,
+        "tools": [
+            {
+                "slug": slug,
+                **data
+            }
+            for slug, data in TOOLS.items()
+        ]
+    }
+
+
+# ============================================================
+# GET ONE TOOL
+# ============================================================
+
+@router.get("/{tool_slug}")
+async def get_tool(tool_slug: str):
+
+    tool = TOOLS.get(tool_slug)
+
+    if not tool:
+        raise HTTPException(
+            status_code=404,
+            detail="Tool not found"
+        )
+
+    return {
+        "success": True,
+        "slug": tool_slug,
+        **tool
+    }
+
+
+# ============================================================
+# VALIDATE INPUT
+# ============================================================
+
+def validate_text(tool_slug: str, text: str):
+
+    if not text or not text.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Please enter some text."
+        )
+
+    tool = TOOLS.get(tool_slug)
+
+    if not tool:
+        raise HTTPException(
+            status_code=404,
+            detail="Tool not found."
+        )
+
+    max_characters = tool["max_characters"]
+
+    if len(text) > max_characters:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Maximum {max_characters:,} characters allowed."
+        )
+
+    return text.strip()
+
+
+# ============================================================
+# WORD COUNTER
+# ============================================================
+
+def count_words(text: str):
+
+    words = re.findall(r"\S+", text)
+
+    characters = len(text)
+
+    characters_without_spaces = len(
+        re.sub(r"\s", "", text)
+    )
+
+    sentences = len(
+        re.findall(r"[.!?]+", text)
+    )
+
+    paragraphs = len(
+        [p for p in text.split("\n") if p.strip()]
+    )
+
+    return {
+        "words": len(words),
+        "characters": characters,
+        "characters_without_spaces": characters_without_spaces,
+        "sentences": sentences,
+        "paragraphs": paragraphs
+    }
+
+
+# ============================================================
+# TEXT CLEANER
+# ============================================================
+
+def clean_text(text: str):
+
+    text = re.sub(r"[ \t]+", " ", text)
+
+    text = re.sub(
+        r"\n{3,}",
+        "\n\n",
+        text
+    )
+
+    text = text.strip()
+
+    return text
+
+
+# ============================================================
+# JSON FORMATTER
+# ============================================================
+
+def format_json(text: str):
+
+    try:
+
+        data = json.loads(text)
+
+        return json.dumps(
+            data,
+            indent=2,
+            ensure_ascii=False
+        )
+
+    except json.JSONDecodeError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid JSON: {error.msg}"
+        )
+
+
+# ============================================================
+# BASIC TOOL PROCESSOR
+# ============================================================
+
+def process_basic_tool(
+    tool_slug: str,
+    text: str
+):
+
+    if tool_slug == "word-counter":
+
+        return count_words(text)
+
+    if tool_slug == "character-counter":
+
+        result = count_words(text)
+
+        return {
+            "characters": result["characters"],
+            "characters_without_spaces":
+                result["characters_without_spaces"]
+        }
+
+    if tool_slug == "text-cleaner":
+
+        return clean_text(text)
+
+    if tool_slug == "json-formatter":
+
+        return format_json(text)
+
+    return None
+
+
+# ============================================================
+# RUN TOOL
+# ============================================================
+
+@router.post("/{tool_slug}/run")
+async def run_tool(
+    tool_slug: str,
+    request: ToolRequest
+):
+
+    if tool_slug not in TOOLS:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Tool not found."
+        )
+
+    text = validate_text(
+        tool_slug,
+        request.text
+    )
+
+    tool = TOOLS[tool_slug]
+
+    # --------------------------------------------------------
+    # PROTECTION FOR PRO TOOLS
+    # --------------------------------------------------------
+
+    # بعداً این قسمت را به سیستم User/Subscription
+    # متصل می‌کنیم.
+
+    if tool["requires_pro"]:
+
+        raise HTTPException(
+            status_code=403,
+            detail="This tool requires a Pro subscription."
+        )
+
+    # --------------------------------------------------------
+    # BASIC TOOLS
+    # --------------------------------------------------------
+
+    basic_result = process_basic_tool(
+        tool_slug,
+        text
+    )
+
+    if basic_result is not None:
+
+        return ToolResponse(
+            success=True,
+            tool=tool_slug,
+            result=(
+                json.dumps(
+                    basic_result,
+                    ensure_ascii=False
+                )
+                if isinstance(basic_result, dict)
+                else basic_result
+            ),
+            metadata={
+                "language": request.language
+            }
+        )
+
+    # --------------------------------------------------------
+    # AI TOOLS
+    # --------------------------------------------------------
+
+    if tool_slug == "rewriter":
+
+        return ToolResponse(
+            success=True,
+            tool=tool_slug,
+            result=(
+                "AI rewriting engine is ready. "
+                "Connect your AI provider here."
+            ),
+            metadata={
+                "tone": request.tone,
+                "length": request.length,
+                "language": request.language
+            }
+        )
+
+    if tool_slug == "summarizer":
+
+        return ToolResponse(
+            success=True,
+            tool=tool_slug,
+            result=(
+                "AI summarization engine is ready. "
+                "Connect your AI provider here."
+            ),
+            metadata={
+                "length": request.length,
+                "language": request.language
+            }
+        )
+
+    if tool_slug == "email-writer":
+
+        return ToolResponse(
+            success=True,
+            tool=tool_slug,
+            result=(
+                "AI email writer is ready. "
+                "Connect your AI provider here."
+            ),
+            metadata={
+                "tone": request.tone,
+                "language": request.language
+            }
+        )
+
+    if tool_slug == "grammar":
+
+        return ToolResponse(
+            success=True,
+            tool=tool_slug,
+            result=(
+                "AI grammar engine is ready. "
+                "Connect your AI provider here."
+            ),
+            metadata={
+                "language": request.language
+            }
+        )
+
+    raise HTTPException(
+        status_code=500,
+        detail="Tool processor is not configured."
+    )
+
+
+# ============================================================
+# TOOL FORM CONFIGURATION
+# ============================================================
+
+@router.get("/{tool_slug}/form")
+async def get_tool_form(tool_slug: str):
+
+    tool = TOOLS.get(tool_slug)
+
+    if not tool:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Tool not found."
+        )
+
+    return {
+        "success": True,
+
+        "form": {
+            "tool": tool_slug,
+
+            "title": tool["name"],
+
+            "description": tool["description"],
+
+            "fields": [
+
+                {
+                    "name": "text",
+                    "type": "textarea",
+                    "label": "Your Text",
+                    "placeholder": tool["placeholder"],
+                    "required": True,
+                    "max_length":
+                        tool["max_characters"]
+                },
+
+                {
+                    "name": "language",
+                    "type": "select",
+                    "label": "Language",
+                    "options": [
+                        "English",
+                        "French",
+                        "German",
+                        "Spanish",
+                        "Persian",
+                        "Arabic",
+                        "Hebrew"
+                    ]
+                },
+
+                {
+                    "name": "tone",
+                    "type": "select",
+                    "label": "Tone",
+                    "options": [
+                        "professional",
+                        "friendly",
+                        "casual",
+                        "formal",
+                        "confident"
+                    ]
+                },
+
+                {
+                    "name": "length",
+                    "type": "select",
+                    "label": "Length",
+                    "options": [
+                        "short",
+                        "medium",
+                        "long"
+                    ]
+                }
+            ],
+
+            "button": {
+                "text": tool["button"],
+                "action": f"/api/tools/{tool_slug}/run",
+                "method": "POST"
+            }
+        }
+    }
