@@ -1,0 +1,27 @@
+app/
+├── main.py
+├── database.py
+├── models.py
+├── auth.py
+├── i18n.py
+├── payments.py
+├── subscriptions.py
+├── usage.py
+└── tools.py
+
+templates/
+├── index.html
+├── login.html
+├── register.html
+├── dashboard.html
+├── pricing.html
+└── ...
+
+translations/
+├── en.json
+├── fa.json
+├── fr.json
+├── he.json
+├── es.json
+├── de.json
+└── ar.json
