@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  toolora:
+    build: .
+    container_name: toolora
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - DATABASE_URL=sqlite:///./toolora.db
+    volumes:
+      - ./:/app
+      - toolora_db:/app/data
+    restart: unless-stopped
+    networks:
+      - toolora_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: toolora_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - toolora
+    restart: unless-stopped
+    networks:
+      - toolora_network
+
+volumes:
+  toolora_db:
+
+networks:
+  toolora_network:
+    driver: bridge
