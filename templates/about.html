@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}درباره ما - Toolora{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="legal-page">
+        <h1>درباره Toolora</h1>
+        
+        <section class="about-section">
+            <h2>ما کیستیم؟</h2>
+            <p>
+Toolora یک پلتفرم SaaS است که مجموعه‌ای از ابزارهای آنلاین قدرتمند را برای کار با متن، اعداد و داده‌های JSON فراهم می‌کند.
+ما با تمرکز بر سادگی، سرعت و امنیت، ابزارهایی را طراحی کردیم که کار روزمره شما را آسان‌تر کنند.
+            </p>
+        </section>
+
+        <section class="about-section">
+            <h2>ماموریت ما</h2>
+            <p>
+ماموریت Toolora این است که ابزارهای با ک��فیت بالا و رایگان را برای تمام افراد در سطح جهان در دسترس قرار دهیم.
+ما اعتقاد داریم که فناوری باید برای همه در دسترس باشد، نه تنها برای شرکت‌های بزرگ.
+            </p>
+        </section>
+
+        <section class="about-section">
+            <h2>چرا Toolora؟</h2>
+            <ul style="line-height: 2; color: #6b7280;">
+                <li>✅ <strong>سریع و کارآمد:</strong> نتایج فوری بدون تاخیر</li>
+                <li>✅ <strong>امن و خصوصی:</strong> داده‌های شما محفوظ است و ذخیره نمی‌شود</li>
+                <li>✅ <strong>Responsive:</strong> بر روی همه دستگاه‌ها کار می‌کند</li>
+                <li>✅ <strong>بدون نیاز به ثبت‌نام:</strong> فوری و بدون محدودیت</li>
+                <li>✅ <strong>رایگان:</strong> تماماً بدون هزینه</li>
+                <li>✅ <strong>API دسترسی:</strong> برنامه‌نویسان می‌توانند از API استفاده کنند</li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>ابزارهای ما</h2>
+            <div class="tools-list">
+                <div class="tool-item">
+                    <h3>📝 شمارش کلمات</h3>
+                    <p>شمارش دقیق تعداد کلمات، کاراکترها، خطوط و پاراگراف‌های متن شما</p>
+                </div>
+                <div class="tool-item">
+                    <h3>🔤 شمارش کاراکترها</h3>
+                    <p>تحلیل تفصیلی کاراکترها، اعداد، حروف بزرگ و کوچک</p>
+                </div>
+                <div class="tool-item">
+                    <h3>🧹 پاک‌کننده متن</h3>
+                    <p>حذف فاصله‌های اضافی، عبارات نامناسب و تمیز کردن متن</p>
+                </div>
+                <div class="tool-item">
+                    <h3>{ } فرمت‌کننده JSON</h3>
+                    <p>فرمت‌بندی، اعتبارسنجی و فشرده‌سازی کد JSON</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>تیم توسعه</h2>
+            <p>
+Toolora توسط GitHub Copilot برای ایجاد یک پلتفرم SaaS آزاد، امن و قابل دسترس ایجاد شده است.
+ما دوست‌دار متن‌باز (Open Source) هستیم و به تطور و بهبود مستمر اعتقاد داریم.
+            </p>
+        </section>
+
+        <section class="about-section">
+            <h2>تماس با ما</h2>
+            <p>
+اگر سؤال، پیشنهاد یا نظری دارید، با ما تماس بگیرید:
+            </p>
+            <ul style="line-height: 2; color: #6b7280;">
+                <li>📧 ایمیل: <a href="mailto:info@toolora.com" style="color: #6366f1; text-decoration: none;">info@toolora.com</a></li>
+                <li>🐙 GitHub: <a href="https://github.com/aryanjahanbakhsh333-ux/Toolora" target="_blank" rel="noopener" style="color: #6366f1; text-decoration: none;">Toolora Repository</a></li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+<style>
+.legal-page {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.legal-page h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #111827;
+    text-align: center;
+}
+
+.about-section {
+    margin-bottom: 3rem;
+}
+
+.about-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #111827;
+    border-bottom: 3px solid #6366f1;
+    padding-bottom: 0.5rem;
+}
+
+.about-section p {
+    color: #6b7280;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+}
+
+.about-section ul {
+    list-style: none;
+}
+
+.about-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.tools-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.tool-item {
+    background: #f3f4f6;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #6366f1;
+}
+
+.tool-item h3 {
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.tool-item p {
+    color: #6b7280;
+    margin-bottom: 0;
+}
+</style>
+{% endblock %}
