@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}خطا - Toolora{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="text-align: center; padding: 80px 0;">
+        <h1 style="font-size: 4rem; color: #ef4444; margin-bottom: 1rem;">⚠️ خطا</h1>
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">{{ error }}</h2>
+        <p style="font-size: 1.1rem; color: #6b7280; margin-bottom: 2rem;">
+            متأسفانه صفحه مورد نظر یافت نشد یا دسترسی به آن محدود است.
+        </p>
+        <a href="/" class="btn btn-primary btn-lg">بازگشت به صفحه اصلی</a>
+    </div>
+</div>
+{% endblock %}
