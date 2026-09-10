@@ -1,0 +1,220 @@
+/* ===========================
+   Responsive Design
+   =========================== */
+
+/* Tablets - 768px and below */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+
+    .tools-section h2,
+    .features h2 {
+        font-size: 2rem;
+    }
+
+    .tools-grid,
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tool-content {
+        grid-template-columns: 1fr;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-menu {
+        gap: 1rem;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu.active {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        left: 0;
+        flex-direction: column;
+        background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 1.7rem;
+    }
+}
+
+/* Mobile - 480px and below */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .hero {
+        padding: 60px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-content p {
+        font-size: 0.95rem;
+    }
+
+    .btn-lg {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    .tools-section,
+    .features {
+        padding: 50px 0;
+    }
+
+    .tools-section h2,
+    .features h2 {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .tool-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .tool-header p {
+        font-size: 1rem;
+    }
+
+    textarea {
+        min-height: 200px;
+    }
+
+    .input-section,
+    .output-section {
+        padding: 1.5rem;
+    }
+
+    .result-card {
+        padding: 1rem;
+    }
+
+    .result-value {
+        font-size: 1.5rem;
+    }
+
+    .feature {
+        padding: 1.5rem;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+
+    .feature h3 {
+        font-size: 1.1rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+
+    .footer {
+        padding: 2rem 0;
+    }
+
+    .footer p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra Small - 320px and below */
+@media (max-width: 320px) {
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    input[type="number"] {
+        width: 60px;
+    }
+}
+
+/* ===========================
+   High DPI Screens (Retina)
+   =========================== */
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* ===========================
+   Print Styles
+   =========================== */
+
+@media print {
+    .navbar,
+    .footer,
+    .btn {
+        display: none;
+    }
+
+    body {
+        background: white;
+    }
+}
+
+/* ===========================
+   Dark Mode Support
+   =========================== */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-dark: #f3f4f6;
+        --text-light: #d1d5db;
+        --light-color: #1f2937;
+        --border-color: #374151;
+    }
+
+    body {
+        background-color: #111827;
+        color: #f3f4f6;
+    }
+
+    .input-section,
+    .output-section,
+    .tool-card {
+        background: #1f2937;
+        border-color: #374151;
+    }
+
+    textarea,
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+        background: #374151;
+        color: #f3f4f6;
+        border-color: #4b5563;
+    }
+}
