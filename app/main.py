@@ -11,7 +11,7 @@ import os
 # Initialize FastAPI app
 app = FastAPI(
     title="Toolora",
-    description="Platform ابزارهای آنلاین حرفه‌ای",
+    description="پلتفرم جامع ابزارهای آنلاین حرفه‌ای",
     version="1.0.0"
 )
 
@@ -35,6 +35,24 @@ app.include_router(tools.router)
 async def home(request: Request):
     """صفحه اصلی"""
     return templates.TemplateResponse("index.html", {"request": request})
+
+# About page
+@app.get("/about", response_class=HTMLResponse)
+async def about_page(request: Request):
+    """صفحه درباره Toolora"""
+    return templates.TemplateResponse("about.html", {"request": request})
+
+# Privacy Policy page
+@app.get("/privacy", response_class=HTMLResponse)
+async def privacy_page(request: Request):
+    """صفحه سیاست حریم خصوصی"""
+    return templates.TemplateResponse("privacy.html", {"request": request})
+
+# Terms of Service page
+@app.get("/terms", response_class=HTMLResponse)
+async def terms_page(request: Request):
+    """صفحه شرایط استفاده"""
+    return templates.TemplateResponse("terms.html", {"request": request})
 
 # Word Counter page
 @app.get("/word-counter", response_class=HTMLResponse)
